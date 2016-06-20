@@ -23,17 +23,17 @@ void azimutControl(){
   if(i_deltaAzimut >= 2){ //only adjust angle, if azimut difference is greater than 2 degrees
 
     //default speed for small gaps:
-    digitalWrite(azi_MS1, LOW); //quarter step mode
-    digitalWrite(azi_MS2, HIGH);
-    digitalWrite(azi_MS3, LOW);
+    digitalWrite(aziDriverMs1, LOW); //quarter step mode
+    digitalWrite(aziDriverMs2, HIGH);
+    digitalWrite(aziDriverMs3, LOW);
     int i_stepModeAzi = 4; //parameter for new angle calculation
     
     if(i_deltaAzimut >= 8){ //if gap is larger than 10 degrees
     
     //higher speed for large gaps  
-    digitalWrite(azi_MS1, LOW); //azi_MS1,2,3 LOW for full step mode
-    digitalWrite(azi_MS2, LOW);
-    digitalWrite(azi_MS3, LOW);
+    digitalWrite(aziDriverMs1, LOW); //aziDriverMs1,2,3 LOW for full step mode
+    digitalWrite(aziDriverMs2, LOW);
+    digitalWrite(aziDriverMs3, LOW);
     i_stepModeAzi = 1;      
     }
 
@@ -42,23 +42,23 @@ void azimutControl(){
     if(i_azimut >= i_currentAzimut){ //if desired azimuth is higher than current actual azimuth
     
     //then set up azimut motor driver to move azimuth clockwise
-    digitalWrite(azi_EN, LOW); //Set enable low to allow motor control
-    digitalWrite(azi_dir, HIGH); //clockwise azimuth rotation direction
+    digitalWrite(aziDriverEnable, LOW); //Set enable low to allow motor control
+    digitalWrite(aziDriverDirection, HIGH); //clockwise azimuth rotation direction
     
-    int i_stepsIncrease = round((f_azimut-f_currentAzimut)*azi_gearRatio/(azi_stepAngle*i_stepModeAzi)); //calculation of how many steps to increase (rounded to integer)
+    int i_stepsIncrease = round((f_azimut-f_currentAzimut)*aziGearRatio/(aziStepAngle*i_stepModeAzi)); //calculation of how many steps to increase (rounded to integer)
     
     for(int i_aziLoop = 0; i_aziLoop <i_stepsIncrease; i_aziLoop++){
 
-    digitalWrite(azi_stp, HIGH); //trigger one step
+    digitalWrite(aziDriverStep, HIGH); //trigger one step
     delay(1);
-    digitalWrite(azi_stp, LOW); //pull step pin low so it can be triggered again
+    digitalWrite(aziDriverStep, LOW); //pull step pin low so it can be triggered again
     delay(1);    
       
     }
     
-    f_currentAzimut = f_currentAzimut + ((i_stepsIncrease*azi_stepAngle)/(azi_gearRatio*i_stepModeAzi)); //add the azimuth change to the current azimuth
+    f_currentAzimut = f_currentAzimut + ((i_stepsIncrease*aziStepAngle)/(aziGearRatio*i_stepModeAzi)); //add the azimuth change to the current azimuth
 
-    digitalWrite(azi_EN, HIGH); //disable current flow
+    digitalWrite(aziDriverEnable, HIGH); //disable current flow
     
   }
 
@@ -66,23 +66,23 @@ void azimutControl(){
   if(i_azimut < i_currentAzimut){ //if desired azimuth is smaller than current actual azimuth
 
     //then set up azimut motor driver to move azimuth counterclockwise
-    digitalWrite(azi_EN, LOW); //Set enable low to allow motor control
-    digitalWrite(azi_dir, LOW); //counterclockwise azimuth rotation direction
+    digitalWrite(aziDriverEnable, LOW); //Set enable low to allow motor control
+    digitalWrite(aziDriverDirection, LOW); //counterclockwise azimuth rotation direction
 
-    int i_stepsIncrease = round((f_currentAzimut-f_azimut)*azi_gearRatio/(azi_stepAngle*i_stepModeAzi));
+    int i_stepsIncrease = round((f_currentAzimut-f_azimut)*aziGearRatio/(aziStepAngle*i_stepModeAzi));
     
     for(int i_aziLoop = 0; i_aziLoop <i_stepsIncrease; i_aziLoop++){ //move steps counterclockwise
 
-    digitalWrite(azi_stp, HIGH); //trigger one step
+    digitalWrite(aziDriverStep, HIGH); //trigger one step
     delay(1);
-    digitalWrite(azi_stp, LOW); //pull step pin low so it can be triggered again
+    digitalWrite(aziDriverStep, LOW); //pull step pin low so it can be triggered again
     delay(1);    
       
     }
     
-    f_currentAzimut = f_currentAzimut - ((i_stepsIncrease*azi_stepAngle)/(azi_gearRatio*i_stepModeAzi)); //subtract the azimuth change from the current azimuth
+    f_currentAzimut = f_currentAzimut - ((i_stepsIncrease*aziStepAngle)/(aziGearRatio*i_stepModeAzi)); //subtract the azimuth change from the current azimuth
     
-    digitalWrite(azi_EN, HIGH); //disable current flow
+    digitalWrite(aziDriverEnable, HIGH); //disable current flow
       
   }
 
@@ -119,9 +119,9 @@ void elevationControl(){
   
   if(i_deltaElevation >= 1){ //if gap larger than 1 degree
 
-    digitalWrite(ele_MS1, LOW); //default quarter step speed
-    digitalWrite(ele_MS2, LOW);
-    digitalWrite(ele_MS3, LOW);
+    digitalWrite(eleDriverMs1, LOW); //default quarter step speed
+    digitalWrite(eleDriverMs2, LOW);
+    digitalWrite(eleDriverMs3, LOW);
     int i_stepModeEle = 1; //parameter used for calculations later on
 
 
@@ -133,21 +133,21 @@ void elevationControl(){
     if(i_currentElevation < i_elevation){ 
 
     //set up motor parameters
-    digitalWrite(ele_EN, LOW); //Set enable low to allow motor control
-    digitalWrite(ele_dir, HIGH); //upwards elevation rotation
+    digitalWrite(eleDriverEnable, LOW); //Set enable low to allow motor control
+    digitalWrite(eleDriverDirection, HIGH); //upwards elevation rotation
 
-    int i_stepsIncreaseEle = round(((f_elevation-f_currentElevation)*ele_gearRatio*i_stepModeEle)/ele_stepAngle);
+    int i_stepsIncreaseEle = round(((f_elevation-f_currentElevation)*eleGearRatio*i_stepModeEle)/eleStepAngle);
 
     for(int i_eleLoop = 0; i_eleLoop < i_stepsIncreaseEle; i_eleLoop++){
 
-      digitalWrite(ele_stp, HIGH);
+      digitalWrite(eleDriverStep, HIGH);
       delay(1);
-      digitalWrite(ele_stp,LOW);
+      digitalWrite(eleDriverStep,LOW);
       delay(1);
     }
 
-    f_currentElevation = f_currentElevation + ((i_stepsIncreaseEle*ele_stepAngle)/ele_gearRatio);
-    digitalWrite(ele_EN, HIGH); //disable current flow
+    f_currentElevation = f_currentElevation + ((i_stepsIncreaseEle*eleStepAngle)/eleGearRatio);
+    digitalWrite(eleDriverEnable, HIGH); //disable current flow
   }
 
   //### move elevation platform downwards: ###
@@ -155,21 +155,21 @@ void elevationControl(){
   if(i_currentElevation > i_elevation){
 
     //set up motor parameters
-    digitalWrite(ele_EN, LOW); //Set enable low to allow motor control
-    digitalWrite(ele_dir, LOW); //downwards elevation rotation
+    digitalWrite(eleDriverEnable, LOW); //Set enable low to allow motor control
+    digitalWrite(eleDriverDirection, LOW); //downwards elevation rotation
 
-    int i_stepsIncreaseEle = round(((f_currentElevation-f_elevation)*ele_gearRatio*i_stepModeEle)/ele_stepAngle);
+    int i_stepsIncreaseEle = round(((f_currentElevation-f_elevation)*eleGearRatio*i_stepModeEle)/eleStepAngle);
 
     for(int i_eleLoop = 0; i_eleLoop < i_stepsIncreaseEle; i_eleLoop++){
 
-      digitalWrite(ele_stp, HIGH);
+      digitalWrite(eleDriverStep, HIGH);
       delay(1);
-      digitalWrite(ele_stp, LOW);
+      digitalWrite(eleDriverStep, LOW);
       delay(1);
     }
 
-    f_currentElevation = f_currentElevation - ((i_stepsIncreaseEle*ele_stepAngle)/ele_gearRatio);
-    digitalWrite(ele_EN, HIGH); //disable current flow    
+    f_currentElevation = f_currentElevation - ((i_stepsIncreaseEle*eleStepAngle)/eleGearRatio);
+    digitalWrite(eleDriverEnable, HIGH); //disable current flow    
   }
   
 }
