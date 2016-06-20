@@ -1,4 +1,5 @@
 #include <Arduino.h>
+//freshly developed, not yet in master branch
 
 #include <TinyGPS.h> //Tiny GPS library for extracting GPS information
 #include <Wire.h>
@@ -117,7 +118,7 @@ void setup() {
   pinMode(ele_calButton, INPUT); //Elevation calibration button setup
   pinMode(ledPin, OUTPUT); //ledPin setup
   pinMode(userSwitch, INPUT); //User switch
-  
+
   /*
   pinMode(compassLV, OUTPUT);
   pinMode(compassHV, OUTPUT);
@@ -131,7 +132,7 @@ void setup() {
     Serial.println("Compass initialization failed"); //reporting error in compass sensor
   }
   */
-  
+
   //elevation stepper pinMode setup:
   pinMode(ele_stp, OUTPUT);
   pinMode(ele_dir, OUTPUT);
@@ -149,7 +150,7 @@ void setup() {
   pinMode(azi_EN, OUTPUT);
 
   resetBEDPins(); //make sure that the stepper motor driver pins are turned off (otherwise might cause overheating)
-  
+
   //short & superflashy intro sequence (LED and tone):
   //tone(buzzerPin,2000,300);
   delay(100);
@@ -159,13 +160,13 @@ void setup() {
   delay(100);
   tone(buzzerPin,2900,300);
   delay(100);
-  
+
   for(int i_fade=0; i_fade<255; i_fade++){ //LED fading loop
     analogWrite(ledPin, i_fade);
     delay(5);
   }
 
-  
+
 
   //###Bluetooth (attached to Serial1) configuration procedure:###
   //has to be done every bootup (to change baudrate to 9600)
@@ -180,17 +181,17 @@ void setup() {
   Serial1.println("Bluetooth Module set to 9600bps.");
   Serial1.println("Bluetooth Module Transmitting test.");
 
-  
+
   //###Axes calibration procedure:###
   Serial1.println("Starting Elevation Calibration.");
   //ele_calibration();
   Serial1.println("Elevation Calibration Complete.");
 
-  
+
   Serial1.println("Starting Azimuth Calibration.");
   //azi_calibration();
   Serial1.println("Azimuth Calibration Complete.");
-  
+
   Serial1.println("Setup Procedure Complete.");
   tone(buzzerPin,2000,300);
 
@@ -202,7 +203,7 @@ void setup() {
 
   aziStepper.setAcceleration(1000);
   aziStepper.moveTo(32000);
-  
+
 }
 
 void loop() {
@@ -214,9 +215,9 @@ void loop() {
     //Serial.write(aa); //passing the string on to bluetooth module
 
     if(locosys.encode(aa)){ //checking if GPS input is valid
-      locosys.f_get_position(&f_object_lat,&f_object_lon); //command to get latitude and longitude from GPS 
-      f_object_alt = locosys.f_altitude(); //command to get altitude from GPS     
-      
+      locosys.f_get_position(&f_object_lat,&f_object_lon); //command to get latitude and longitude from GPS
+      f_object_alt = locosys.f_altitude(); //command to get altitude from GPS
+
       /*
       i_gps_counter ++; //counts the amount of decoded gps strings
       Serial1.print("Decoded GPS strings: ");
@@ -228,28 +229,28 @@ void loop() {
       Serial1.println(" seconds.");
       */
       tone(buzzerPin,1000,50);
-      
+
       positionValid = 1; //allow next loops
-      
+
     }
-    
+
     }
 
   unsigned long currentMillis = millis(); //variable necessary to compare the milliseconds
-  
+
   if(currentMillis - previousMillis >= interval){ //checks if its time to update calculations
     previousMillis = currentMillis; //updates the millisecond count
-  
+
   if(positionValid == 1){ //executes only when GPS position is valid
     angleCalculation(); //executes angle calculation sub program
-    
+
     //Serial1.println(f_object_lat, 6); //output Latitude, 6 decimal points
     //Serial1.print("Azimut angle is: ");
     //Serial1.println(f_azimut);
     //Serial.print("Distance on ground in meter is: ");
     //Serial.println(f_distance_ground);
 
-    
+
     positionValid = 0; //blocks the angle calculation until it has a new gps string
     //tone(buzzerPin,2000,50);
     }
@@ -265,8 +266,8 @@ void loop() {
     float pin_voltage = batt_voltage * (5.0 / 1023.0);
     float battery_voltage = (pin_voltage*13.15)/4.7;
     Serial.println(battery_voltage);
-    */   
-    
+    */
+
 
 
 }
