@@ -35,34 +35,14 @@ TinyGPS gpsSensor;
 #define aziStepAngle 0.9
 #define aziGearRatio 24 //Mechanical gear ratio
 
-float f_currentAzimut = 0; //the actual azimuth angle the tracker is pointing at currently
-float f_currentElevation = 0;
+
 
 unsigned long previousMillis = 0; //variable for restricting the angle calculation interval
 const long interval = 1000; //interval for angle calculation in ms (to prevent buffer overflow on the serial port)
 
-//test home coordinates (middle Luitpoldpark)
-float f_home_lat = 48.168926;
-float f_home_lon = 11.568848;
-float f_home_altitude = 0; //[m]
 
-//flying object coordinates
-float f_object_lat = 0;
-float f_object_lon = 0;
-float f_object_alt = 0;
 
-//pointing angles and flying object information
-float f_azimut = 0; //[°]
-float f_elevation = 0; //[°]
-float f_altitude_to_ground = 0; //[m]
-float f_distance_ground = 0; //[m]
-float f_total_distance = 0; //calculation not implemented (line of sight distance to object)
 
-//helping variables
-int positionValid = 0; //only if GPS could be decoded successfully, the angle calculation starts
-byte gpsString;
-int i_gps_counter = 0;
-unsigned long time_last_decode = 0, time_current_decode = 0;
 
 
 void setup() {
@@ -104,6 +84,8 @@ void setup() {
 void loop() {
 
 
+
+  /*
   //checking serial port for GPS input
   while (Serial2.available()){
     gpsString = Serial2.read();
@@ -113,7 +95,7 @@ void loop() {
       gpsSensor.f_get_position(&f_object_lat,&f_object_lon); //command to get latitude and longitude from GPS
       f_object_alt = gpsSensor.f_altitude(); //command to get altitude from GPS
 
-      /*
+
       i_gps_counter ++; //counts the amount of decoded gps strings
       Serial1.print("Decoded GPS strings: ");
       Serial1.print(i_gps_counter);
@@ -122,7 +104,7 @@ void loop() {
       Serial1.print(" at ");
       Serial1.print(time_current_decode);
       Serial1.println(" seconds.");
-      */
+
       tone(buzzerPin,1000,50);
 
       positionValid = 1; //allow next loops
@@ -152,16 +134,20 @@ void loop() {
 
   }
 
+
+
     //azimutControl();
     //elevationControl();
     //motorControl();
     //accelControl();
-    /*
+
     batt_voltage = analogRead(batt_pin);
     float pin_voltage = batt_voltage * (5.0 / 1023.0);
     float battery_voltage = (pin_voltage*13.15)/4.7;
     Serial.println(battery_voltage);
     */
+    angleCalculation();
+    delay(1000);
 
 
 
