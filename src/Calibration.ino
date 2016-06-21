@@ -1,6 +1,6 @@
 #include <Arduino.h>
 
-void ele_calibration(){
+void CalibrateElevation(){
   //This code calibrates the elevation axis to be at zero degree after switching antenna tracker on
 
   //first, the elevation plate has to move upwards a certain amount:
@@ -42,7 +42,7 @@ void ele_calibration(){
 
 }
 
-void azi_calibration(){
+void CalibrateAzimut(){
   //This code calibrates the azimuth axis. It sets the Magnetometer into calibration mode and then turns the antenna tracker 360 degrees
 
   //Magnetometer command to go into calibration mode:

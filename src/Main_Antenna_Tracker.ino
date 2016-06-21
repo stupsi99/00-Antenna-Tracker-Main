@@ -3,12 +3,10 @@
 #include <Wire.h>
 #include "SFE_HMC6343.h" //Magnetometer library
 
-
 //Objects
 SFE_HMC6343 Magnetometer;
 TinyGPS gpsSensor;
 
-//Pin mapping and definitions
 #define LedRing 44
 #define LogicConverterLow 46 //Low voltage reference pin for logic level converter (Magnetometer)
 #define LogicConverterHigh 52 //High voltage reference
@@ -35,15 +33,8 @@ TinyGPS gpsSensor;
 #define aziStepAngle 0.9
 #define aziGearRatio 24 //Mechanical gear ratio
 
-
-
 unsigned long previousMillis = 0; //variable for restricting the angle calculation interval
 const long interval = 1000; //interval for angle calculation in ms (to prevent buffer overflow on the serial port)
-
-
-
-
-
 
 void setup() {
 
@@ -73,8 +64,8 @@ void setup() {
   disableMotors();
   ledIntro();
   setupBluetooth();
-  //ele_calibration();
-  //azi_calibration();
+  //CalibrateElevation();
+  //CalibrateAzimut();
 
   Serial1.println("Setup Procedure Complete.");
 
