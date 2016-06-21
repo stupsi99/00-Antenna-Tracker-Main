@@ -55,14 +55,13 @@ void setupMagnetometer(){
 
 void updateAngles(){
 
-  byte gpsString;
   const long gpsUpdateInterval = 1000;
   int positionValid = 0;
 
-  while (Serial.available()){
+  while(Serial.available()){
 
     gpsString = Serial.read();
-    //Serial1.write(gpsString); //passing the string on to bluetooth module
+    Serial1.write(gpsString); //GPS string to Bluetooth Module
     if(gpsSensor.encode(gpsString)){
 
       gpsSensor.f_get_position(&UAVLatitude,&UAVLongitude);
@@ -83,4 +82,48 @@ void updateAngles(){
 
     }
   }
+}
+
+void setHomePosition(){
+
+  while(Serial.available()){
+
+    gpsString = Serial.read();
+    if(gpsSensor.encode(gpsString)){
+
+      gpsSensor.f_get_position(&HomeLatitude,&HomeLongitude);
+      HomeAltitude = gpsSensor.f_altitude();
+
+    }
+  }
+}
+
+void checkBattery(){
+
+  int batteryValue = analogRead(batteryPin);
+  float pinVoltage = batteryValue * (5.0 / 1023.0);
+  float batteryVoltage = (pinVoltage * 13.15) / 4.7; //13.15kOhm and 4.7kOhm resistor
+
+  int iBatteryVoltage = round(batteryVoltage * 100); //times hundred for more accuracy
+
+  if(iBatteryVoltage < 1140){
+
+    batteryAlarm();
+
+  }
+
+}
+
+void batteryAlarm(){
+
+  int batteryAlarmInterval = 5000;
+
+  if(currentBatteryAlarmTimestamp - previousBatteryAlarmTimestamp > batteryAlarmInterval){
+
+    tone(buzzerPin,2000,200);
+    tone(buzzerPin,1500,200);
+    tone(buzzerPin,1000,200);
+
+  }
+
 }

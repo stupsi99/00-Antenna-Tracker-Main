@@ -1,6 +1,6 @@
 #include <Arduino.h>
 
-void CalibrateElevation(){
+void calibrateElevation(){
   //This code calibrates the elevation axis to be at zero degree after switching antenna tracker on
 
   //first, the elevation plate has to move upwards a certain amount:

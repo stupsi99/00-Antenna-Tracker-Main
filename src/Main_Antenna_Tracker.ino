@@ -36,9 +36,14 @@ TinyGPS gpsSensor;
 unsigned long previousGpsTimestamp = 0;
 unsigned long currentGpsTimestamp;
 
+unsigned long previousBatteryAlarmTimestamp = 0;
+unsigned long currentBatteryAlarmTimestamp;
+
 float UAVLatitude = 0;
 float UAVLongitude = 0;
 float UAVAltitude = 0;
+
+byte gpsString;
 
 void setup() {
 
@@ -69,6 +74,7 @@ void setup() {
   ledIntro();
   setupBluetooth();
   setupMagnetometer();
+  setHomePosition();
   //calibrateAzimut();
 
 }
@@ -76,20 +82,6 @@ void setup() {
 void loop() {
 
   updateAngles();
-
-    //azimutControl();
-    //elevationControl();
-    //motorControl();
-    //accelControl();
-    /*
-    batt_voltage = analogRead(batt_pin);
-    float pin_voltage = batt_voltage * (5.0 / 1023.0);
-    float battery_voltage = (pin_voltage*13.15)/4.7;
-    Serial.println(battery_voltage);
-    */
-    //angleCalculation();
-    //runHeadings();
-    //getNorthHeading();
-    //Serial1.println("Bluetooth Sending");
+  checkBattery();
 
 }
