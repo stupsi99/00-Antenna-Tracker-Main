@@ -36,15 +36,9 @@ TinyGPS gpsSensor;
 unsigned long previousGpsTimestamp = 0;
 unsigned long currentGpsTimestamp;
 
-float UAVLatitude = 48.170639;
-float UAVLongitude = 11.570251;
-float UAVAltitude = 15;
-
-//helping variables
-int positionValid = 0; //only if GPS could be decoded successfully, the angle calculation starts
-int i_gps_counter = 0;
-unsigned long time_last_decode = 0, time_current_decode = 0;
-
+float UAVLatitude = 0;
+float UAVLongitude = 0;
+float UAVAltitude = 0;
 
 void setup() {
 
@@ -81,15 +75,7 @@ void setup() {
 
 void loop() {
 
-  getNewGps();
-
-
-
-
-
-
-
-
+  updateAngles();
 
     //azimutControl();
     //elevationControl();

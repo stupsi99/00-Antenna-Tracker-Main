@@ -53,10 +53,11 @@ void setupMagnetometer(){
   */
 }
 
-void getNewGps(){
+void updateAngles(){
 
   byte gpsString;
   const long gpsUpdateInterval = 1000;
+  int positionValid = 0;
 
   while (Serial.available()){
 
