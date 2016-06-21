@@ -77,13 +77,10 @@ void setup() {
   //azi_calibration();
 
   Serial1.println("Setup Procedure Complete.");
-  //tone(buzzerPin,2000,300);
 
 }
 
 void loop() {
-
-
 
   /*
   //checking serial port for GPS input
@@ -92,8 +89,8 @@ void loop() {
     //Serial.write(gpsString); //passing the string on to bluetooth module
 
     if(gpsSensor.encode(gpsString)){ //checking if GPS input is valid
-      gpsSensor.f_get_position(&f_object_lat,&f_object_lon); //command to get latitude and longitude from GPS
-      f_object_alt = gpsSensor.f_altitude(); //command to get altitude from GPS
+      gpsSensor.f_get_position(&UAVLatitude,&UAVLongitude); //command to get latitude and longitude from GPS
+      UAVAltitude = gpsSensor.f_altitude(); //command to get altitude from GPS
 
 
       i_gps_counter ++; //counts the amount of decoded gps strings
@@ -121,11 +118,11 @@ void loop() {
   if(positionValid == 1){ //executes only when GPS position is valid
     angleCalculation(); //executes angle calculation sub program
 
-    //Serial1.println(f_object_lat, 6); //output Latitude, 6 decimal points
+    //Serial1.println(UAVLatitude, 6); //output Latitude, 6 decimal points
     //Serial1.print("Azimut angle is: ");
-    //Serial1.println(f_azimut);
+    //Serial1.println(NewAzimut);
     //Serial.print("Distance on ground in meter is: ");
-    //Serial.println(f_distance_ground);
+    //Serial.println(DistanceOnGround);
 
 
     positionValid = 0; //blocks the angle calculation until it has a new gps string
@@ -148,7 +145,5 @@ void loop() {
     */
     angleCalculation();
     delay(1000);
-
-
 
 }
