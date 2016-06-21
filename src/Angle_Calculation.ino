@@ -1,8 +1,8 @@
 #include <Arduino.h>
 
 int MapQuadrant = 0; //to determine quadrant number
-float CurrentAzimut = 0; //the actual azimuth angle the tracker is pointing at currently
-float CurrentElevation = 0;
+float CurrentAzimut; //the actual azimuth angle the tracker is pointing at currently
+float CurrentElevation;
 
 float UAVLatitude = 48.170639;
 float UAVLongitude = 11.570251;

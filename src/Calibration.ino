@@ -39,25 +39,22 @@ void CalibrateElevation(){
 
   disableMotors();
 
-
 }
 
-void CalibrateAzimut(){
-  //This code calibrates the azimuth axis. It sets the Magnetometer into calibration mode and then turns the antenna tracker 360 degrees
+void calibrateAzimut(){
 
-  //Magnetometer command to go into calibration mode:
-  //###Magnetometer calibration command###
-  //set up motor driver:
-  digitalWrite(aziDriverEnable, LOW); //Set enable low to allow motor control
-  digitalWrite(aziDriverDirection, HIGH); //direction does not matter for calibration
-  digitalWrite(aziDriverMs1, LOW); //eleDriverMs1,2,3 LOW for full step mode
+  Magnetometer.enterCalMode();
+  delay(1);
+
+  digitalWrite(aziDriverEnable, LOW); //Low = enabled
+  digitalWrite(aziDriverDirection, HIGH);
+  digitalWrite(aziDriverMs1, HIGH);
   digitalWrite(aziDriverMs2, LOW);
   digitalWrite(aziDriverMs3, LOW);
 
   int i_calAzi=0; //counting variable for the "for loop"
-  i_calAzi= (360*aziGearRatio*1)/aziStepAngle; //determines how many steps at full step (*1) are required to rotate the given calibration rotation angle
+  i_calAzi= (100*aziGearRatio*1)/aziStepAngle; //determines how many steps at full step (*1) are required to rotate the given calibration rotation angle
 
-  //for loop to rotate tracker 360 degrees
   for(int y_cal=0; y_cal<i_calAzi; y_cal++){
     digitalWrite(aziDriverStep, HIGH); //trigger one step
     delay(1);
@@ -65,5 +62,12 @@ void CalibrateAzimut(){
     delay(1);
   }
 
+  Magnetometer.exitCalMode();
+  delay(50);
+
+  Magnetometer.readHeading();
+  CurrentAzimut = Magnetometer.heading/10.0;
+
   disableMotors();
+
 }

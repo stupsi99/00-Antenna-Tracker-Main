@@ -64,8 +64,8 @@ void setup() {
   disableMotors();
   ledIntro();
   setupBluetooth();
-  //CalibrateElevation();
-  //CalibrateAzimut();
+  setupMagnetometer();
+  calibrateAzimut();
 
   Serial1.println("Setup Procedure Complete.");
 
@@ -134,7 +134,8 @@ void loop() {
     float battery_voltage = (pin_voltage*13.15)/4.7;
     Serial.println(battery_voltage);
     */
-    angleCalculation();
-    delay(1000);
+    //angleCalculation();
+    //runHeadings();
+    //getNorthHeading();
 
 }

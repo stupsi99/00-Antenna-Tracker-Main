@@ -40,3 +40,23 @@ void setupBluetooth(){
   Serial1.begin(9600);
 
 }
+
+void setupMagnetometer(){
+
+  delay(500);
+  if (!Magnetometer.init()){
+
+    Serial.println("Sensor Initialization Failed\n\r");
+
+}
+
+}
+
+void getNorthHeading(){
+
+  float magnetometerHeading;
+  Magnetometer.readHeading();
+  magnetometerHeading = Magnetometer.heading/10.0;
+  //Serial.println(magnetometerHeading);
+
+}
