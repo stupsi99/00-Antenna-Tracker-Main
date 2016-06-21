@@ -4,15 +4,11 @@ int MapQuadrant = 0; //to determine quadrant number
 float CurrentAzimut; //the actual azimuth angle the tracker is pointing at currently
 float CurrentElevation;
 
-
-
 //pointing angles and flying object information
 float NewAzimut = 0; //[°]
 float NewElevation = 0; //[°]
 float AltitudeToGround = 0; //[m]
 float DistanceOnGround = 0; //[m]
-
-
 
 //test home coordinates (middle Luitpoldpark)
 float HomeLatitude = 48.168926;
@@ -128,11 +124,12 @@ void angleCalculation() {
 
   }
 
+    /*
     Serial.print("Total distance: ");
     Serial.println(DistanceOnGround);
     Serial.print("Altitude to ground: ");
     Serial.println(AltitudeToGround);
     Serial.print("Azimut: ");
     Serial.println(NewAzimut);
-
+    */
 }

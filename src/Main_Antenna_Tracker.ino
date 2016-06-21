@@ -33,9 +33,8 @@ TinyGPS gpsSensor;
 #define aziStepAngle 0.9
 #define aziGearRatio 24 //Mechanical gear ratio
 
-unsigned long previousMillis = 0; //variable for restricting the angle calculation interval
-const long interval = 1000; //interval for angle calculation in ms (to prevent buffer overflow on the serial port)
-byte gpsString;
+unsigned long previousGpsTimestamp = 0;
+unsigned long currentGpsTimestamp;
 
 float UAVLatitude = 48.170639;
 float UAVLongitude = 11.570251;
@@ -82,56 +81,13 @@ void setup() {
 
 void loop() {
 
-
-  //checking serial port for GPS input
-  while (Serial.available()){
-    gpsString = Serial.read();
-    //Serial.write(gpsString); //passing the string on to bluetooth module
-
-    if(gpsSensor.encode(gpsString)){ //checking if GPS input is valid
-      gpsSensor.f_get_position(&UAVLatitude,&UAVLongitude); //command to get latitude and longitude from GPS
-      UAVAltitude = gpsSensor.f_altitude(); //command to get altitude from GPS
-
-/*
-      i_gps_counter ++; //counts the amount of decoded gps strings
-      Serial1.print("Decoded GPS strings: ");
-      Serial1.print(i_gps_counter);
-      time_current_decode = millis();
-      time_current_decode = time_current_decode/1000;
-      Serial1.print(" at ");
-      Serial1.print(time_current_decode);
-      Serial1.println(" seconds.");
-      */
-
-      tone(buzzerPin,1000,50);
-
-      positionValid = 1; //allow next loops
-
-    }
-
-    }
-  /*
-  unsigned long currentMillis = millis(); //variable necessary to compare the milliseconds
-
-  if(currentMillis - previousMillis >= interval){ //checks if its time to update calculations
-    previousMillis = currentMillis; //updates the millisecond count
-
-  if(positionValid == 1){ //executes only when GPS position is valid
-    angleCalculation(); //executes angle calculation sub program
-
-    //Serial1.println(UAVLatitude, 6); //output Latitude, 6 decimal points
-    //Serial1.print("Azimut angle is: ");
-    //Serial1.println(NewAzimut);
-    //Serial.print("Distance on ground in meter is: ");
-    //Serial.println(DistanceOnGround);
+  getNewGps();
 
 
-    positionValid = 0; //blocks the angle calculation until it has a new gps string
-    //tone(buzzerPin,2000,50);
-    }
 
-  }
-  */
+
+
+
 
 
 

@@ -53,8 +53,33 @@ void setupMagnetometer(){
   */
 }
 
-void getNewGPS(){
+void getNewGps(){
 
-  
+  byte gpsString;
+  const long gpsUpdateInterval = 1000;
 
+  while (Serial.available()){
+
+    gpsString = Serial.read();
+    //Serial1.write(gpsString); //passing the string on to bluetooth module
+    if(gpsSensor.encode(gpsString)){
+
+      gpsSensor.f_get_position(&UAVLatitude,&UAVLongitude);
+      UAVAltitude = gpsSensor.f_altitude();
+      //tone(buzzerPin,1000,50);
+      positionValid = 1;
+
+    }
+
+    currentGpsTimestamp = millis();
+
+    if(positionValid == 1 && currentGpsTimestamp - previousGpsTimestamp >= gpsUpdateInterval){
+
+      previousGpsTimestamp = currentGpsTimestamp;
+      angleCalculation();
+      positionValid = 0;
+      tone(buzzerPin,2000,50);
+
+    }
+  }
 }
