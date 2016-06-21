@@ -1,7 +1,5 @@
 #include <Arduino.h>
 
-//this sub program calibrates the azimuth and elevation axes
-
 void ele_calibration(){
   //This code calibrates the elevation axis to be at zero degree after switching antenna tracker on
 

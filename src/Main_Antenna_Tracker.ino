@@ -33,7 +33,7 @@ TinyGPS gpsSensor;
 #define aziDriverMs3 12
 #define aziDriverEnable 13
 #define aziStepAngle 0.9
-#define aziGearRatio 24
+#define aziGearRatio 24 //Mechanical gear ratio
 
 float f_currentAzimut = 0; //the actual azimuth angle the tracker is pointing at currently
 float f_currentElevation = 0;
@@ -60,7 +60,7 @@ float f_total_distance = 0; //calculation not implemented (line of sight distanc
 
 //helping variables
 int positionValid = 0; //only if GPS could be decoded successfully, the angle calculation starts
-byte aa; //used as GPS string buffer for bluetooth
+byte gpsString;
 int i_gps_counter = 0;
 unsigned long time_last_decode = 0, time_current_decode = 0;
 
@@ -97,7 +97,7 @@ void setup() {
   //azi_calibration();
 
   Serial1.println("Setup Procedure Complete.");
-  tone(buzzerPin,2000,300);
+  //tone(buzzerPin,2000,300);
 
 }
 
@@ -106,10 +106,10 @@ void loop() {
 
   //checking serial port for GPS input
   while (Serial2.available()){
-    aa = Serial2.read();
-    //Serial.write(aa); //passing the string on to bluetooth module
+    gpsString = Serial2.read();
+    //Serial.write(gpsString); //passing the string on to bluetooth module
 
-    if(gpsSensor.encode(aa)){ //checking if GPS input is valid
+    if(gpsSensor.encode(gpsString)){ //checking if GPS input is valid
       gpsSensor.f_get_position(&f_object_lat,&f_object_lon); //command to get latitude and longitude from GPS
       f_object_alt = gpsSensor.f_altitude(); //command to get altitude from GPS
 
