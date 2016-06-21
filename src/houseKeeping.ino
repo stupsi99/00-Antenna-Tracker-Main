@@ -52,3 +52,9 @@ void setupMagnetometer(){
   }
   */
 }
+
+void getNewGPS(){
+
+  
+
+}
