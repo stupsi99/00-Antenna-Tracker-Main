@@ -35,6 +35,17 @@ TinyGPS gpsSensor;
 
 unsigned long previousMillis = 0; //variable for restricting the angle calculation interval
 const long interval = 1000; //interval for angle calculation in ms (to prevent buffer overflow on the serial port)
+byte gpsString;
+
+float UAVLatitude = 48.170639;
+float UAVLongitude = 11.570251;
+float UAVAltitude = 15;
+
+//helping variables
+int positionValid = 0; //only if GPS could be decoded successfully, the angle calculation starts
+int i_gps_counter = 0;
+unsigned long time_last_decode = 0, time_current_decode = 0;
+
 
 void setup() {
 
@@ -65,25 +76,23 @@ void setup() {
   ledIntro();
   setupBluetooth();
   setupMagnetometer();
-  calibrateAzimut();
-
-  Serial1.println("Setup Procedure Complete.");
+  //calibrateAzimut();
 
 }
 
 void loop() {
 
-  /*
+
   //checking serial port for GPS input
-  while (Serial2.available()){
-    gpsString = Serial2.read();
+  while (Serial.available()){
+    gpsString = Serial.read();
     //Serial.write(gpsString); //passing the string on to bluetooth module
 
     if(gpsSensor.encode(gpsString)){ //checking if GPS input is valid
       gpsSensor.f_get_position(&UAVLatitude,&UAVLongitude); //command to get latitude and longitude from GPS
       UAVAltitude = gpsSensor.f_altitude(); //command to get altitude from GPS
 
-
+/*
       i_gps_counter ++; //counts the amount of decoded gps strings
       Serial1.print("Decoded GPS strings: ");
       Serial1.print(i_gps_counter);
@@ -92,6 +101,7 @@ void loop() {
       Serial1.print(" at ");
       Serial1.print(time_current_decode);
       Serial1.println(" seconds.");
+      */
 
       tone(buzzerPin,1000,50);
 
@@ -100,7 +110,7 @@ void loop() {
     }
 
     }
-
+  /*
   unsigned long currentMillis = millis(); //variable necessary to compare the milliseconds
 
   if(currentMillis - previousMillis >= interval){ //checks if its time to update calculations
@@ -121,6 +131,7 @@ void loop() {
     }
 
   }
+  */
 
 
 
@@ -128,7 +139,7 @@ void loop() {
     //elevationControl();
     //motorControl();
     //accelControl();
-
+    /*
     batt_voltage = analogRead(batt_pin);
     float pin_voltage = batt_voltage * (5.0 / 1023.0);
     float battery_voltage = (pin_voltage*13.15)/4.7;
@@ -137,5 +148,6 @@ void loop() {
     //angleCalculation();
     //runHeadings();
     //getNorthHeading();
+    //Serial1.println("Bluetooth Sending");
 
 }

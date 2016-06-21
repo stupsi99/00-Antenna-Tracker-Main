@@ -4,9 +4,7 @@ int MapQuadrant = 0; //to determine quadrant number
 float CurrentAzimut; //the actual azimuth angle the tracker is pointing at currently
 float CurrentElevation;
 
-float UAVLatitude = 48.170639;
-float UAVLongitude = 11.570251;
-float UAVAltitude = 15;
+
 
 //pointing angles and flying object information
 float NewAzimut = 0; //[°]
@@ -14,11 +12,7 @@ float NewElevation = 0; //[°]
 float AltitudeToGround = 0; //[m]
 float DistanceOnGround = 0; //[m]
 
-//helping variables
-int positionValid = 0; //only if GPS could be decoded successfully, the angle calculation starts
-byte gpsString;
-int i_gps_counter = 0;
-unsigned long time_last_decode = 0, time_current_decode = 0;
+
 
 //test home coordinates (middle Luitpoldpark)
 float HomeLatitude = 48.168926;

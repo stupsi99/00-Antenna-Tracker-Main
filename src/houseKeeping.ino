@@ -44,19 +44,17 @@ void setupBluetooth(){
 void setupMagnetometer(){
 
   delay(500);
-  if (!Magnetometer.init()){
+  Magnetometer.init();
+  /*if (!Magnetometer.init()){
 
     Serial.println("Sensor Initialization Failed\n\r");
 
+  }
+  */
 }
 
-}
+void getNewGPS(){
 
-void getNorthHeading(){
-
-  float magnetometerHeading;
-  Magnetometer.readHeading();
-  magnetometerHeading = Magnetometer.heading/10.0;
-  //Serial.println(magnetometerHeading);
+  
 
 }
