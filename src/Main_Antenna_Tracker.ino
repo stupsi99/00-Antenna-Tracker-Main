@@ -75,6 +75,7 @@ void setup() {
   setupBluetooth();
   setupMagnetometer();
   setHomePosition();
+  delay(2000);
   //calibrateAzimut();
 
 }

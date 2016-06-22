@@ -78,7 +78,7 @@ void updateAngles(){
       previousGpsTimestamp = currentGpsTimestamp;
       angleCalculation();
       positionValid = 0;
-      tone(buzzerPin,2000,50);
+      //tone(buzzerPin,2000,50);
 
     }
   }
@@ -86,14 +86,18 @@ void updateAngles(){
 
 void setHomePosition(){
 
-  while(Serial.available()){
+  int homeFound = 0;
+  while(homeFound == 0){
+    while(Serial.available()){
 
-    gpsString = Serial.read();
-    if(gpsSensor.encode(gpsString)){
+      gpsString = Serial.read();
+      if(gpsSensor.encode(gpsString)){
 
-      gpsSensor.f_get_position(&HomeLatitude,&HomeLongitude);
-      HomeAltitude = gpsSensor.f_altitude();
+        gpsSensor.f_get_position(&HomeLatitude,&HomeLongitude);
+        HomeAltitude = gpsSensor.f_altitude();
+        homeFound = 1;
 
+      }
     }
   }
 }
