@@ -77,6 +77,7 @@ void updateAngles(){
 
       previousGpsTimestamp = currentGpsTimestamp;
       angleCalculation();
+      azimutControl();
       positionValid = 0;
       //tone(buzzerPin,2000,50);
 

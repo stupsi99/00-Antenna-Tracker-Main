@@ -1,11 +1,11 @@
 #include <Arduino.h>
 
 int MapQuadrant = 0; //to determine quadrant number
-float CurrentAzimut; //the actual azimuth angle the tracker is pointing at currently
+float currentAzimut; //the actual azimuth angle the tracker is pointing at currently
 float CurrentElevation;
 
 //pointing angles and flying object information
-float NewAzimut = 0; //[°]
+float newAzimut = 0; //[°]
 float NewElevation = 0; //[°]
 float AltitudeToGround = 0; //[m]
 float DistanceOnGround = 0; //[m]
@@ -64,8 +64,8 @@ void angleCalculation() {
     DistanceOnGround = DistanceOnGround*1000; //converting total distance from km into m (for elevation calculation)
 
     //azimut calculation
-    NewAzimut = atan(DistanceLongitudeKm/DistanceLatitudeKm); //azimut in RAD
-    NewAzimut = NewAzimut*RAD_TO_DEG;
+    newAzimut = atan(DistanceLongitudeKm/DistanceLatitudeKm); //azimut in RAD
+    newAzimut = newAzimut*RAD_TO_DEG;
 
     //elevation calculation
     AltitudeToGround = UAVAltitude - HomeAltitude; //calculating the object altitude in respect to home position
@@ -81,8 +81,8 @@ void angleCalculation() {
     DistanceOnGround = sqrt(sq(DistanceLatitudeKm)+sq(DistanceLongitudeKm));
     DistanceOnGround = DistanceOnGround*1000;
 
-    NewAzimut = atan(DistanceLatitudeKm/DistanceLongitudeKm);
-    NewAzimut = NewAzimut*RAD_TO_DEG + 90;
+    newAzimut = atan(DistanceLatitudeKm/DistanceLongitudeKm);
+    newAzimut = newAzimut*RAD_TO_DEG + 90;
 
     AltitudeToGround = UAVAltitude - HomeAltitude;
     NewElevation = atan(AltitudeToGround / DistanceOnGround);
@@ -98,8 +98,8 @@ void angleCalculation() {
     DistanceOnGround = sqrt(sq(DistanceLatitudeKm)+sq(DistanceLongitudeKm));
     DistanceOnGround = DistanceOnGround*1000;
 
-    NewAzimut = atan(DistanceLongitudeKm/DistanceLatitudeKm);
-    NewAzimut = NewAzimut*RAD_TO_DEG + 180;
+    newAzimut = atan(DistanceLongitudeKm/DistanceLatitudeKm);
+    newAzimut = newAzimut*RAD_TO_DEG + 180;
 
     AltitudeToGround = UAVAltitude - HomeAltitude;
     NewElevation = atan(AltitudeToGround / DistanceOnGround);
@@ -115,8 +115,8 @@ void angleCalculation() {
     DistanceOnGround = sqrt(sq(DistanceLatitudeKm)+sq(DistanceLongitudeKm));
     DistanceOnGround = DistanceOnGround*1000;
 
-    NewAzimut = atan(DistanceLatitudeKm/DistanceLongitudeKm);
-    NewAzimut = NewAzimut*RAD_TO_DEG + 270;
+    newAzimut = atan(DistanceLatitudeKm/DistanceLongitudeKm);
+    newAzimut = newAzimut*RAD_TO_DEG + 270;
 
     AltitudeToGround = UAVAltitude - HomeAltitude;
     NewElevation = atan(AltitudeToGround / DistanceOnGround);
@@ -130,6 +130,6 @@ void angleCalculation() {
     Serial.print("Altitude to ground: ");
     Serial.println(AltitudeToGround);
     Serial.print("Azimut: ");
-    Serial.println(NewAzimut);
+    Serial.println(newAzimut);
     */
 }

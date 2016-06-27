@@ -48,12 +48,12 @@ void calibrateAzimut(){
 
   digitalWrite(aziDriverEnable, LOW); //Low = enabled
   digitalWrite(aziDriverDirection, HIGH);
-  digitalWrite(aziDriverMs1, HIGH);
+  digitalWrite(aziDriverMs1, LOW);
   digitalWrite(aziDriverMs2, LOW);
   digitalWrite(aziDriverMs3, LOW);
 
-  int i_calAzi=0; //counting variable for the "for loop"
-  i_calAzi= (100*aziGearRatio*1)/aziStepAngle; //determines how many steps at full step (*1) are required to rotate the given calibration rotation angle
+  int i_calAzi=0;
+  i_calAzi= (720*aziGearRatio*1)/aziStepAngle;
 
   for(int y_cal=0; y_cal<i_calAzi; y_cal++){
     digitalWrite(aziDriverStep, HIGH); //trigger one step
@@ -66,7 +66,14 @@ void calibrateAzimut(){
   delay(50);
 
   Magnetometer.readHeading();
-  CurrentAzimut = Magnetometer.heading/10.0;
+  currentAzimut = Magnetometer.heading/10.0;
+  int magnetometerCorrection = 243;
+  currentAzimut = currentAzimut + magnetometerCorrection;
+  if(currentAzimut >= 360){
+    currentAzimut = currentAzimut - 360;
+  }
+  
+  Serial.println(currentAzimut);
 
   disableMotors();
 

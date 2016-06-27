@@ -74,14 +74,14 @@ void setup() {
   ledIntro();
   setupBluetooth();
   setupMagnetometer();
+  calibrateAzimut();
   setHomePosition();
+  tone(buzzerPin,1000,50);
   delay(2000);
-  //calibrateAzimut();
 
 }
 
 void loop() {
-
   updateAngles();
   checkBattery();
 
